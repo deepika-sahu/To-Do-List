@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TODO LIST</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Bubble Background Styles */
+    section {
+        position: fixed; /* Use fixed so it covers the whole viewport */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-image: url("https://i.pinimg.com/564x/ea/7f/f0/ea7ff00eb8e28940555876de68dcfbf1.jpg");
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    section span {
+        position: absolute;
+        bottom: -50px;
+        background: transparent;
+        border-radius: 50%;
+        pointer-events: none;
+        box-shadow: inset 0 0 10px rgba(231, 106, 183, 0.5);
+        animation: animate 4s linear infinite;
+    }
+
+    section span:before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: scale(0.25) translate(-70%, -70%);
+        background: radial-gradient(#fff, transparent);
+        border-radius: 50%;
+    }
+
+    @keyframes animate {
+        0% {
+            transform: translateY(0%);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-1200%);
+            opacity: 1;
+        }
+    }
+  </style>
+</head>
+<body>
+  <section></section> <!-- Bubble Background Section -->
+  <div class="container">
+    <h1>Todo List</h1>
+    <div class="input-container">
+      <input class="todo-input" placeholder="Add a new task...">
+      <button class="add-button">
+        <i class="fa fa-plus-circle"></i>
+      </button>
+    </div>
+    <div class="filters">
+      <div class="filter" data-filter="completed">Complete</div>
+      <div class="filter" data-filter="pending">Incomplete</div>
+      <div class="delete-all">Delete All</div>
+    </div>
+    <div class="todos-container">
+      <ul class="todos"></ul>
+      <img class="empty-image" src="https://learntime.net/assets/todo-list/empty.svg">
+    </div>
+  </div>
+  <script src="script.js"></script>
+  <script>  
+let bubbleCount = 0;
+    const maxBubbles = 50; 
+    const bubbleInterval = setInterval(createBubble, 1000);
+
+    function createBubble(){
+      if (bubbleCount >= maxBubbles) {
+        clearInterval(bubbleInterval); // Stop creating bubbles after maxBubbles
+        return;
+      }
+
+      bubbleCount++;
+      const section = document.querySelector("section");
+      const createElement = document.createElement("span");
+      var size = Math.random() * 60;
+
+      createElement.style.width = 20 + size + 'px';
+      createElement.style.height = 20 + size + 'px';
+      createElement.style.left = Math.random() * window.innerWidth + "px";
+      section.appendChild(createElement);
+
+      createElement.style.animation = `animate 10s linear infinite`;
+
+      // Remove bubble when it is out of the viewport
+      createElement.addEventListener('animationend', () => {
+        createElement.remove();
+      });
+    }
+  </script>
+</body>
+</html>
